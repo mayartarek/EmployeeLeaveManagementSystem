@@ -10,7 +10,7 @@ namespace EmployeeLeaveManagementSystem.Models
         public Employee? Employee { get; set; } 
         [Required]
         public int LeaveTypeId { get; set; }
-         public LeaveTypes LeaveTypes { get; set; }
+         public LeaveTypes? LeaveTypes { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }

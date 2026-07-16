@@ -51,14 +51,51 @@ public class LeaveRequestsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,EmployeeId,Employee,LeaveTypeId,LeaveTypes,StartDate,EndDate,Reason,Status")] LeaveRequest leaverequest)
+
+    public async Task<IActionResult> Create([Bind("Id,EmployeeId,LeaveTypeId,StartDate,EndDate,Reason,Status")] LeaveRequest leaverequest)
     {
+        leaverequest.Status = LeaveStatus.Pending;
+        if (leaverequest.StartDate.Date < DateTime.Today)
+        {
+            ModelState.AddModelError("StartDate", "Start Date cannot be earlier than today.");
+        }
+
+        if (leaverequest.EndDate.Date < leaverequest.StartDate.Date)
+        {
+            ModelState.AddModelError("EndDate", "End Date must be after or equal to Start Date.");
+        }
+
+        int leaveDays = (leaverequest.EndDate - leaverequest.StartDate).Days + 1;
+
+        var leaveType = await _context.LeaveTypes
+            .FirstOrDefaultAsync(x => x.Id == leaverequest.LeaveTypeId);
+
+        if (leaveType != null && leaveDays > leaveType.MaximumDaysAllowed)
+        {
+            ModelState.AddModelError("", $"Maximum allowed days is {leaveType.MaximumDaysAllowed}");
+        }
+
+        bool overlap = await _context.LeaveRequests.AnyAsync(x =>
+            x.EmployeeId == leaverequest.EmployeeId &&
+            x.Status != LeaveStatus.Rejected &&
+            leaverequest.StartDate <= x.EndDate &&
+            leaverequest.EndDate >= x.StartDate);
+        leaverequest.LeaveTypes = leaveType;
+        if (overlap)
+        {
+            ModelState.AddModelError("", "This employee already has a leave request during this period.");
+        }
+
         if (ModelState.IsValid)
         {
             _context.Add(leaverequest);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "EmployeeName", leaverequest.EmployeeId);
+        ViewData["LeaveTypeId"] = new SelectList(_context.LeaveTypes, "Id", "LeaveTypeName", leaverequest.LeaveTypeId);
+
         return View(leaverequest);
     }
 
