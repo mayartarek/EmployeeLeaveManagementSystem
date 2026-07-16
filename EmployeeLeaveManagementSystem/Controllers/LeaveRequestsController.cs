@@ -133,7 +133,38 @@ public class LeaveRequestsController : Controller
 
         return View(leaverequest);
     }
-
+    /// <summary>
+    /// Approves a leave request with the specified ID by updating its status to "Approved" in the database.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<IActionResult> Approve(int id)
+    {
+        var leaveRequest = await _context.LeaveRequests.FindAsync(id);
+        if (leaveRequest == null)
+        {
+            return NotFound();
+        }
+        leaveRequest.Status = LeaveStatus.Approved;
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+    /// <summary>
+    /// Rejects a leave request with the specified ID by updating its status to "Rejected" in the database.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public async Task<IActionResult> Reject(int id)
+    {
+        var leaveRequest = await _context.LeaveRequests.FindAsync(id);
+        if (leaveRequest == null)
+        {
+            return NotFound();
+        }
+        leaveRequest.Status = LeaveStatus.Rejected;
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
     // POST: LEAVEREQUESTS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
