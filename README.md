@@ -7,3 +7,11 @@
 - Leave Request Submission: Employees can submit leave requests specifying the type of leave, duration, and reason.
 - Leave Balance Tracking: Employees can view their remaining leave balances for different types of leave (e.g., annual leave, sick leave).
 - Manager Dashboard: Managers can view pending leave requests, approve or reject them, and track the leave history of their team members.
+
+
+How to Run
+Open the solution in Visual Studio 2022.
+Update the connection string in appsettings.json if needed.i
+Open Package Manager Console and run:
+Update-Database
+Press F5 to run the application
