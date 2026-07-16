@@ -1,8 +1,51 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model EmployeeLeaveManagementSystem.Models.DashboardViewModel
+
+
+@{
+    ViewData["Title"] = "DashBoard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2 class="mb-4">Dashboard</h2>
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Employees</h5>
+                <h2>@Model.TotalNoOfEmployees</h2>
+            </div>
+        </div>
+    </div>
+   
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Leave Requests</h5>
+                <h2>@Model.TotalNoOfLeaveRequest</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5>Pending Leave Requests</h5>
+                <h2>@Model.TotalPendingLeaveRequest</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Approved Leave Request</h5>
+                <h2>@Model.TotalApprovedLeaveRequest</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Total Rejected Leave Request</h5>
+                <h2>@Model.TotalRejectedLeaveRequest</h2>
+            </div>
+        </div>
+    </div>
+ </div>
