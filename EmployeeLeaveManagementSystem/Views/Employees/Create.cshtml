@@ -1,0 +1,43 @@
+@model EmployeeLeaveManagementSystem.Models.Employee
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h1>Create Employee</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="EmployeeName" class="control-label"></label>
+        <input asp-for="EmployeeName" class="form-control" />
+        <span asp-validation-for="EmployeeName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeEmail" class="control-label"></label>
+        <input asp-for="EmployeeEmail" class="form-control" />
+        <span asp-validation-for="EmployeeEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeePhone" class="control-label"></label>
+        <input asp-for="EmployeePhone" class="form-control" />
+        <span asp-validation-for="EmployeePhone" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeCode" class="control-label"></label>
+        <input asp-for="EmployeeCode" class="form-control" />
+        <span asp-validation-for="EmployeeCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmployeeDepartment" class="control-label"></label>
+        <input asp-for="EmployeeDepartment" class="form-control" />
+        <span asp-validation-for="EmployeeDepartment" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

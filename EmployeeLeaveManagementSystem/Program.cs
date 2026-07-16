@@ -1,3 +1,5 @@
+using EmployeeLeaveManagementSystem.Data;
+using EmployeeLeaveManagementSystem.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,8 +9,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<EmployeeLeaveManagementSystem.Data.ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-var app = builder.Build();
 
+var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    LeaveTypeSeedData.SeedLeaveTypes(context);
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
